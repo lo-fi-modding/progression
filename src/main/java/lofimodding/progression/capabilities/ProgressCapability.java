@@ -45,9 +45,11 @@ public class ProgressCapability {
 
         final CompoundNBT tag = (CompoundNBT)base;
 
-        final ListNBT stagesNbt = tag.getList("stages", Constants.NBT.TAG_COMPOUND);
-        for(final Stage stage : Stage.REGISTRY.get()) {
-          if(stagesNbt.contains(stage.getRegistryName().toString())) {
+        final ListNBT stagesNbt = tag.getList("stages", Constants.NBT.TAG_STRING);
+        for(int i = 0; i < stagesNbt.size(); i++) {
+          final Stage stage = Stage.REGISTRY.get().getValue(new ResourceLocation(stagesNbt.getString(i)));
+
+          if(stage != null) {
             instance.grantStage(stage);
           }
         }

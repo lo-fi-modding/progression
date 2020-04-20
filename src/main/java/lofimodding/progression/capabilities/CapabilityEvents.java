@@ -5,9 +5,8 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import lofimodding.progression.ProgressionMod;
 import lofimodding.progression.network.UpdatePlayerProgressPacket;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -20,18 +19,16 @@ public final class CapabilityEvents {
 
   private CapabilityEvents() { }
 
-  private static final Capability<Progress> CAP = ProgressCapability.CAPABILITY;
-
   @SubscribeEvent
   public static void attachOnSpawn(final AttachCapabilitiesEvent<Entity> event) {
-    if(event.getObject() instanceof LivingEntity) {
+    if(event.getObject() instanceof PlayerEntity) {
       event.addCapability(ProgressCapability.ID, new ProgressProvider());
     }
   }
 
   @SubscribeEvent
   public static void onSpawn(final EntityJoinWorldEvent event) {
-    if(event.getEntity() instanceof LivingEntity) {
+    if(event.getEntity() instanceof PlayerEntity) {
       if(event.getWorld().isRemote) {
         final Progress newProgress = deferredUpdates.remove(event.getEntity().getEntityId());
 
@@ -53,12 +50,12 @@ public final class CapabilityEvents {
   @SubscribeEvent
   public static void playerClone(final PlayerEvent.Clone event) {
     if(event.isWasDeath()) {
-      event.getPlayer().getCapability(CAP, null).ifPresent(newProgress -> event.getOriginal().getCapability(CAP, null).ifPresent(oldProgress -> copy(oldProgress, newProgress)));
+      event.getPlayer().getCapability(ProgressCapability.CAPABILITY).ifPresent(newProgress -> event.getOriginal().getCapability(ProgressCapability.CAPABILITY).ifPresent(oldProgress -> copy(oldProgress, newProgress)));
     }
   }
 
   private static void copy(final Progress oldProgress, final Progress newProgress) {
-    CAP.readNBT(newProgress, null, CAP.writeNBT(oldProgress, null));
+    ProgressCapability.CAPABILITY.readNBT(newProgress, null, ProgressCapability.CAPABILITY.writeNBT(oldProgress, null));
   }
 
   public static void deferUpdate(final int id, final Progress progress) {
