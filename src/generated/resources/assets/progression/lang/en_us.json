@@ -1,0 +1,11 @@
+{
+  "commands.stage.get.no_stages": "%s has no stages",
+  "commands.stage.get.stages_for": "Stages for %s:",
+  "commands.stage.get.stages_list": "- %s",
+  "commands.stage.grant.granted": "You have been granted stage %s",
+  "commands.stage.grant.granted_to": "%s has been granted stage %s",
+  "commands.stage.grant.invalid_stage": "%s is not a valid stage",
+  "commands.stage.revoke.invalid_stage": "%s is not a valid stage",
+  "commands.stage.revoke.revoked": "You have had stage %s revoked",
+  "commands.stage.revoke.revoked_to": "%s has had stage %s revoked"
+}

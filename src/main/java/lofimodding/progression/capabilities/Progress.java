@@ -5,6 +5,7 @@ import net.minecraft.entity.LivingEntity;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class Progress {
@@ -25,19 +26,19 @@ public class Progress {
 
   public void grantStage(final Stage... stages) {
     for(final Stage stage : stages) {
-      this.stages.add(stage);
+      this.stages.add(Objects.requireNonNull(stage, "Stage may not be null"));
     }
   }
 
   public void revokeStage(final Stage... stages) {
     for(final Stage stage : stages) {
-      this.stages.remove(stage);
+      this.stages.remove(Objects.requireNonNull(stage, "Stage may not be null"));
     }
   }
 
   public boolean hasStage(final Stage... stages) {
     for(final Stage stage : stages) {
-      if(!this.stages.contains(stage)) {
+      if(!this.stages.contains(Objects.requireNonNull(stage, "Stage may not be null"))) {
         return false;
       }
     }
