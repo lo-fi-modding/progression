@@ -1,0 +1,27 @@
+modLoader="javafml"
+loaderVersion="[31,)"
+issueTrackerURL="https://github.com/lo-fi-modding/progression/issues"
+[[mods]]
+modId="progression"
+version="${file.jarVersion}"
+displayName="Progression"
+#TODO updateJSONURL="http://myurl.me/"
+displayURL="https://github.com/lo-fi-modding/progression"
+#TODO logoFile="logo.png"
+credits="Corey Frenette (Monoxide)"
+authors="Corey Frenette"
+description='''
+A support mod for progression-based mods
+'''
+[[dependencies.progression]]
+  modId="forge"
+  mandatory=true
+  versionRange="[31,)"
+  ordering="NONE"
+  side="BOTH"
+[[dependencies.progression]]
+  modId="minecraft"
+  mandatory=true
+  versionRange="[1.15.2]"
+  ordering="NONE"
+  side="BOTH"
