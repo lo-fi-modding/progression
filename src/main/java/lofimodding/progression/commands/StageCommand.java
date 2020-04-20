@@ -113,7 +113,7 @@ public final class StageCommand {
       target
         .getCapability(ProgressCapability.CAPABILITY)
         .ifPresent(progress -> {
-          progress.grantStage(stage);
+          progress.revokeStage(stage);
           sender.sendMessage(new TranslationTextComponent("commands.stage.revoke.revoked_to", target.getDisplayName(), stage.getRegistryName()));
 
           if(!sender.equals(target)) {
