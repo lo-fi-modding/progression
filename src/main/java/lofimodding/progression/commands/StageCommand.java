@@ -66,7 +66,7 @@ public final class StageCommand {
             sender.sendMessage(new TranslationTextComponent("commands.stage.get.stages_for", target.getDisplayName()));
 
             for(final Stage stage : progress.getStages()) {
-              sender.sendMessage(new TranslationTextComponent("commands.stage.get.stages_list", stage.getRegistryName()));
+              sender.sendMessage(new TranslationTextComponent("commands.stage.get.stages_list", stage.getName()));
             }
           }
         });
@@ -89,10 +89,10 @@ public final class StageCommand {
         .getCapability(ProgressCapability.CAPABILITY)
         .ifPresent(progress -> {
           progress.grantStage(stage);
-          sender.sendMessage(new TranslationTextComponent("commands.stage.grant.granted_to", target.getDisplayName(), stage.getRegistryName()));
+          sender.sendMessage(new TranslationTextComponent("commands.stage.grant.granted_to", target.getDisplayName(), stage.getName()));
 
           if(!sender.equals(target)) {
-            target.sendMessage(new TranslationTextComponent("commands.stage.grant.granted", stage.getRegistryName()));
+            target.sendMessage(new TranslationTextComponent("commands.stage.grant.granted", stage.getName()));
           }
         });
     }
@@ -114,10 +114,10 @@ public final class StageCommand {
         .getCapability(ProgressCapability.CAPABILITY)
         .ifPresent(progress -> {
           progress.revokeStage(stage);
-          sender.sendMessage(new TranslationTextComponent("commands.stage.revoke.revoked_to", target.getDisplayName(), stage.getRegistryName()));
+          sender.sendMessage(new TranslationTextComponent("commands.stage.revoke.revoked_to", target.getDisplayName(), stage.getName()));
 
           if(!sender.equals(target)) {
-            target.sendMessage(new TranslationTextComponent("commands.stage.revoke.revoked", stage.getRegistryName()));
+            target.sendMessage(new TranslationTextComponent("commands.stage.revoke.revoked", stage.getName()));
           }
         });
     }

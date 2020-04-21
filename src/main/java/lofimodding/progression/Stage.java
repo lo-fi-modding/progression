@@ -1,5 +1,8 @@
 package lofimodding.progression;
 
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -28,5 +31,10 @@ public class Stage extends ForgeRegistryEntry<Stage> {
       .setName(ProgressionMod.loc("research"))
       .setType(Stage.class)
       .create();
+  }
+
+  public ITextComponent getName() {
+    final ResourceLocation id = this.getRegistryName();
+    return new TranslationTextComponent("stage." + id.getNamespace() + '.' + id.getPath());
   }
 }
