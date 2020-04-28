@@ -60,7 +60,7 @@ public class UpdatePlayerProgressPacket {
     return new UpdatePlayerProgressPacket(playerId, progress);
   }
 
-  public static void handle(final UpdatePlayerProgressPacket packet, final Supplier<NetworkEvent.Context> ctx) {
+  public static boolean handle(final UpdatePlayerProgressPacket packet, final Supplier<NetworkEvent.Context> ctx) {
     ctx.get().enqueueWork(() -> {
       final Entity entity = Minecraft.getInstance().world.getEntityByID(packet.entityId);
 
@@ -73,5 +73,7 @@ public class UpdatePlayerProgressPacket {
         .getCapability(CAP, null)
         .ifPresent(progress -> CAP.readNBT(progress, null, CAP.writeNBT(packet.progress, null)));
     });
+
+    return true;
   }
 }
