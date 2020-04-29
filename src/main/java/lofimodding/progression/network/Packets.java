@@ -19,6 +19,6 @@ public final class Packets {
   private static int id;
 
   public static void register() {
-    CHANNEL.messageBuilder(UpdatePlayerProgressPacket.class, id++).encoder(UpdatePlayerProgressPacket::encode).decoder(UpdatePlayerProgressPacket::decode).consumer(UpdatePlayerProgressPacket::handle);
+    CHANNEL.messageBuilder(UpdatePlayerProgressPacket.class, id++).encoder(UpdatePlayerProgressPacket::encode).decoder(UpdatePlayerProgressPacket::decode).consumer(UpdatePlayerProgressPacket::handle).add();
   }
 }
