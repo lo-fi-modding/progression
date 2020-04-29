@@ -8,7 +8,6 @@ import lofimodding.progression.Stage;
 import lofimodding.progression.StageUtils;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ToolItem;
 import net.minecraft.item.crafting.ICraftingRecipe;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.IRecipeType;
@@ -29,10 +28,12 @@ public class ShapelessStagedRecipe implements IStagedRecipe, ICraftingRecipe {
 
   private final ShapelessRecipe recipe;
   private final NonNullList<Stage> stages;
+  private final boolean damageTools;
 
-  public ShapelessStagedRecipe(final ShapelessRecipe recipe, final NonNullList<Stage> stages) {
+  public ShapelessStagedRecipe(final ShapelessRecipe recipe, final NonNullList<Stage> stages, final boolean damageTools) {
     this.recipe = recipe;
     this.stages = stages;
+    this.damageTools = damageTools;
   }
 
   @Override
@@ -67,10 +68,8 @@ public class ShapelessStagedRecipe implements IStagedRecipe, ICraftingRecipe {
     for(int i = 0; i < list.size(); ++i) {
       final ItemStack stack = inv.getStackInSlot(i);
 
-      if(stack.getItem() instanceof ToolItem) {
-        stack.attemptDamageItem(1, RAND, null);
-
-        if(stack.isDamageable() && stack.getDamage() > stack.getMaxDamage()) {
+      if(this.damageTools && stack.isDamageable()) {
+        if(stack.attemptDamageItem(1, RAND, null)) {
           list.set(i, ItemStack.EMPTY);
         } else {
           list.set(i, stack.copy());
@@ -128,7 +127,9 @@ public class ShapelessStagedRecipe implements IStagedRecipe, ICraftingRecipe {
         stages.add(Stage.REGISTRY.get().getValue(new ResourceLocation(element.getAsString())));
       }
 
-      return new ShapelessStagedRecipe(recipe, stages);
+      final boolean damageTools = JSONUtils.getBoolean(json, "damage_tools", true);
+
+      return new ShapelessStagedRecipe(recipe, stages, damageTools);
     }
 
     @Override
@@ -141,7 +142,9 @@ public class ShapelessStagedRecipe implements IStagedRecipe, ICraftingRecipe {
         stages.add(buffer.readRegistryIdSafe(Stage.class));
       }
 
-      return new ShapelessStagedRecipe(recipe, stages);
+      final boolean damageTools = buffer.readBoolean();
+
+      return new ShapelessStagedRecipe(recipe, stages, damageTools);
     }
 
     @Override
@@ -152,6 +155,8 @@ public class ShapelessStagedRecipe implements IStagedRecipe, ICraftingRecipe {
       for(final Stage stage : recipe.stages) {
         buffer.writeRegistryId(stage);
       }
+
+      buffer.writeBoolean(recipe.damageTools);
     }
   }
 }

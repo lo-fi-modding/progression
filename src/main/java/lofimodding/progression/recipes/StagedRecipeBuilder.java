@@ -54,6 +54,7 @@ public final class StagedRecipeBuilder {
     private final List<String> pattern = Lists.newArrayList();
     private final Map<Character, Ingredient> key = Maps.newLinkedHashMap();
     private final Advancement.Builder advancementBuilder = Advancement.Builder.builder();
+    private boolean damageTools = true;
     private String group;
 
     public Shaped(final IItemProvider resultIn, final int countIn) {
@@ -116,6 +117,11 @@ public final class StagedRecipeBuilder {
       return this;
     }
 
+    public Shaped damageTools(final boolean damageTools) {
+      this.damageTools = damageTools;
+      return this;
+    }
+
     public Shaped setGroup(final String groupIn) {
       this.group = groupIn;
       return this;
@@ -148,7 +154,7 @@ public final class StagedRecipeBuilder {
     public void build(final Consumer<IFinishedRecipe> consumer, final ResourceLocation id) {
       this.validate(id);
       this.advancementBuilder.withParentId(new ResourceLocation("recipes/root")).withCriterion("has_the_recipe", new RecipeUnlockedTrigger.Instance(id)).withRewards(AdvancementRewards.Builder.recipe(id)).withRequirementsStrategy(IRequirementsStrategy.OR);
-      consumer.accept(new Result(id, this.stages, this.result, this.count, this.group == null ? "" : this.group, this.pattern, this.key, this.advancementBuilder, new ResourceLocation(id.getNamespace(), "recipes/" + this.result.getGroup().getPath() + '/' + id.getPath())));
+      consumer.accept(new Result(id, this.stages, this.result, this.count, this.damageTools, this.group == null ? "" : this.group, this.pattern, this.key, this.advancementBuilder, new ResourceLocation(id.getNamespace(), "recipes/" + this.result.getGroup().getPath() + '/' + id.getPath())));
     }
 
     /**
@@ -192,22 +198,24 @@ public final class StagedRecipeBuilder {
       private final NonNullList<Stage> stages;
       private final Item result;
       private final int count;
+      private final boolean damageTools;
       private final String group;
       private final List<String> pattern;
       private final Map<Character, Ingredient> key;
       private final Advancement.Builder advancementBuilder;
       private final ResourceLocation advancementId;
 
-      public Result(final ResourceLocation id, final NonNullList<Stage> stages, final Item resultIn, final int countIn, final String groupIn, final List<String> patternIn, final Map<Character, Ingredient> keyIn, final Advancement.Builder advancementBuilderIn, final ResourceLocation advancementIdIn) {
+      public Result(final ResourceLocation id, final NonNullList<Stage> stages, final Item result, final int count, final boolean damageTools, final String group, final List<String> pattern, final Map<Character, Ingredient> key, final Advancement.Builder advancementBuilder, final ResourceLocation advancementId) {
         this.id = id;
         this.stages = stages;
-        this.result = resultIn;
-        this.count = countIn;
-        this.group = groupIn;
-        this.pattern = patternIn;
-        this.key = keyIn;
-        this.advancementBuilder = advancementBuilderIn;
-        this.advancementId = advancementIdIn;
+        this.result = result;
+        this.count = count;
+        this.damageTools = damageTools;
+        this.group = group;
+        this.pattern = pattern;
+        this.key = key;
+        this.advancementBuilder = advancementBuilder;
+        this.advancementId = advancementId;
       }
 
       @Override
@@ -221,6 +229,7 @@ public final class StagedRecipeBuilder {
           stages.add(stage.getRegistryName().toString());
         }
         json.add("stages", stages);
+        json.addProperty("damage_tools", this.damageTools);
 
         final JsonArray pattern = new JsonArray();
         for(final String s : this.pattern) {
@@ -284,6 +293,7 @@ public final class StagedRecipeBuilder {
     private final NonNullList<Stage> stages = NonNullList.create();
     private final List<Ingredient> ingredients = Lists.newArrayList();
     private final Advancement.Builder advancementBuilder = Advancement.Builder.builder();
+    private boolean damageTools = true;
     private String group;
 
     public Shapeless(final IItemProvider item, final int amount) {
@@ -329,6 +339,11 @@ public final class StagedRecipeBuilder {
       return this;
     }
 
+    public Shapeless damageTools(final boolean damageTools) {
+      this.damageTools = damageTools;
+      return this;
+    }
+
     public Shapeless setGroup(final String group) {
       this.group = group;
       return this;
@@ -350,7 +365,7 @@ public final class StagedRecipeBuilder {
     public void build(final Consumer<IFinishedRecipe> finished, final ResourceLocation save) {
       this.validate(save);
       this.advancementBuilder.withParentId(new ResourceLocation("recipes/root")).withCriterion("has_the_recipe", new RecipeUnlockedTrigger.Instance(save)).withRewards(net.minecraft.advancements.AdvancementRewards.Builder.recipe(save)).withRequirementsStrategy(IRequirementsStrategy.OR);
-      finished.accept(new Result(save, this.stages, this.result, this.count, this.group == null ? "" : this.group, this.ingredients, this.advancementBuilder, new ResourceLocation(save.getNamespace(), "recipes/" + this.result.getGroup().getPath() + "/" + save.getPath())));
+      finished.accept(new Result(save, this.stages, this.result, this.count, this.damageTools, this.group == null ? "" : this.group, this.ingredients, this.advancementBuilder, new ResourceLocation(save.getNamespace(), "recipes/" + this.result.getGroup().getPath() + "/" + save.getPath())));
     }
 
     private void validate(final ResourceLocation name) {
@@ -364,16 +379,18 @@ public final class StagedRecipeBuilder {
       private final NonNullList<Stage> stages;
       private final Item result;
       private final int count;
+      private final boolean damageTools;
       private final String group;
       private final List<Ingredient> ingredients;
       private final Advancement.Builder advancementBuilder;
       private final ResourceLocation advancementId;
 
-      public Result(final ResourceLocation id, final NonNullList<Stage> stages, final Item result, final int count, final String group, final List<Ingredient> ingredients, final Advancement.Builder advancementBuilder, final ResourceLocation advancementId) {
+      public Result(final ResourceLocation id, final NonNullList<Stage> stages, final Item result, final int count, final boolean damageTools, final String group, final List<Ingredient> ingredients, final Advancement.Builder advancementBuilder, final ResourceLocation advancementId) {
         this.id = id;
         this.stages = stages;
         this.result = result;
         this.count = count;
+        this.damageTools = damageTools;
         this.group = group;
         this.ingredients = ingredients;
         this.advancementBuilder = advancementBuilder;
@@ -391,6 +408,7 @@ public final class StagedRecipeBuilder {
           stages.add(stage.getRegistryName().toString());
         }
         json.add("stages", stages);
+        json.addProperty("damage_tools", this.damageTools);
 
         final JsonArray array = new JsonArray();
         for(final Ingredient ingredient : this.ingredients) {
