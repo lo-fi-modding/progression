@@ -15,7 +15,7 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
+import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -36,7 +36,7 @@ public class ProgressionMod {
     final IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 
     bus.addListener(this::setup);
-    MinecraftForge.EVENT_BUS.addListener(this::serverStarting);
+    MinecraftForge.EVENT_BUS.addListener(this::serverAboutToStart);
 
     RECIPE_SERIALIZERS.register(bus);
   }
@@ -46,11 +46,11 @@ public class ProgressionMod {
     ProgressCapability.register();
   }
 
-  private void serverStarting(final FMLServerStartingEvent event) {
+  private void serverAboutToStart(final FMLServerAboutToStartEvent event) {
     final LiteralArgumentBuilder<CommandSource> root = Commands.literal(MOD_ID)
       .then(StageCommand.build());
 
-    event.getCommandDispatcher().register(root);
+    event.getServer().getCommandManager().getDispatcher().register(root);
   }
 
   public static ResourceLocation loc(final String path) {

@@ -22,7 +22,7 @@ public final class StageCommand {
 
   public static ArgumentBuilder<CommandSource, ?> build() {
     return Commands.literal("stage")
-      .requires(ctx -> ctx.hasPermissionLevel(4))
+      .requires(ctx -> ctx.hasPermissionLevel(2))
       .then(
         Commands.literal("get")
           .then(
