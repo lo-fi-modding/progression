@@ -33,8 +33,18 @@ public class Stage extends ForgeRegistryEntry<Stage> {
       .create();
   }
 
+  private ResourceLocation icon;
+
   public ITextComponent getName() {
     final ResourceLocation id = this.getRegistryName();
     return new TranslationTextComponent("stage." + id.getNamespace() + '.' + id.getPath());
+  }
+
+  public ResourceLocation getIcon() {
+    if(this.icon == null) {
+      this.icon = new ResourceLocation(this.getRegistryName().getNamespace(), "textures/stages/" + this.getRegistryName().getPath() + ".png");
+    }
+
+    return this.icon;
   }
 }

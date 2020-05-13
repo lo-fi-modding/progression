@@ -36,6 +36,8 @@ public final class ProgressionDataGenerator {
       this.add("commands.stage.revoke.invalid_stage", "%s is not a valid stage");
       this.add("commands.stage.revoke.revoked", "You have had stage %s revoked");
       this.add("commands.stage.revoke.revoked_to", "%s has had stage %s revoked");
+
+      this.add("jei.age.requirement", "Requires %s");
     }
   }
 }
