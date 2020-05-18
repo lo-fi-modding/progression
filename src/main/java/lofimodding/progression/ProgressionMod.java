@@ -1,11 +1,13 @@
 package lofimodding.progression;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import lofimodding.progression.advancements.StageUnlockedTrigger;
 import lofimodding.progression.capabilities.ProgressCapability;
 import lofimodding.progression.commands.StageCommand;
 import lofimodding.progression.network.Packets;
 import lofimodding.progression.recipes.ShapedStagedRecipe;
 import lofimodding.progression.recipes.ShapelessStagedRecipe;
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.item.crafting.IRecipeSerializer;
@@ -31,6 +33,8 @@ public class ProgressionMod {
 
   public static final RegistryObject<IRecipeSerializer<ShapedStagedRecipe>> SHAPED_STAGED_RECIPE_SERIALIZER = RECIPE_SERIALIZERS.register("shaped_staged", ShapedStagedRecipe.Serializer::new);
   public static final RegistryObject<IRecipeSerializer<ShapelessStagedRecipe>> SHAPELESS_STAGED_RECIPE_SERIALIZER = RECIPE_SERIALIZERS.register("shapeless_staged", ShapelessStagedRecipe.Serializer::new);
+
+  public static final StageUnlockedTrigger STAGE_UNLOCKED = CriteriaTriggers.register(new StageUnlockedTrigger());
 
   public ProgressionMod() {
     final IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();

@@ -8,5 +8,5 @@
   "commands.stage.revoke.invalid_stage": "%s is not a valid stage",
   "commands.stage.revoke.revoked": "You have had stage %s revoked",
   "commands.stage.revoke.revoked_to": "%s has had stage %s revoked",
-  "jei.age.requirement": "Requires %s"
+  "jei.stage.requirement": "Requires %s"
 }

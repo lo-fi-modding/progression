@@ -51,7 +51,7 @@ public class ShapelessStagedCraftingExtension<T extends IRecipe<CraftingInventor
       for(int i = 0; i < this.recipe.getStages().size(); i++) {
         if(mouseX >= 103 - i * 16 && mouseX <= 115 - i * 16) {
           final ITextComponent stage = this.recipe.getStages().get(i).getName();
-          final ITextComponent requirement = new TranslationTextComponent("jei.age.requirement", stage);
+          final ITextComponent requirement = new TranslationTextComponent("jei.stage.requirement", stage);
           return Lists.newArrayList(requirement.getFormattedText());
         }
       }

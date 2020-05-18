@@ -3,6 +3,7 @@ package lofimodding.progression;
 import lofimodding.progression.capabilities.Progress;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.PlayerContainer;
@@ -12,6 +13,14 @@ import javax.annotation.Nullable;
 
 public final class StageUtils {
   private StageUtils() { }
+
+  public static void grantStage(final LivingEntity player, final Stage... stages) {
+    Progress.get(player).grantStage(stages);
+
+    if(player instanceof ServerPlayerEntity) {
+      ProgressionMod.STAGE_UNLOCKED.trigger((ServerPlayerEntity)player);
+    }
+  }
 
   public static boolean hasStage(final LivingEntity player, final Stage... stages) {
     return Progress.get(player).hasStage(stages);

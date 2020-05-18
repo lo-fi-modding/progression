@@ -6,6 +6,7 @@ import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import lofimodding.progression.Stage;
+import lofimodding.progression.StageUtils;
 import lofimodding.progression.capabilities.ProgressCapability;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
@@ -88,7 +89,7 @@ public final class StageCommand {
       target
         .getCapability(ProgressCapability.CAPABILITY)
         .ifPresent(progress -> {
-          progress.grantStage(stage);
+          StageUtils.grantStage(target, stage);
           sender.sendMessage(new TranslationTextComponent("commands.stage.grant.granted_to", target.getDisplayName(), stage.getName()));
 
           if(!sender.equals(target)) {
