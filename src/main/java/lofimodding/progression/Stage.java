@@ -47,4 +47,11 @@ public class Stage extends ForgeRegistryEntry<Stage> {
 
     return this.icon;
   }
+
+  /**
+   * If true, this stage will be automatically unlocked when a player logs in
+   */
+  public boolean isDefault() {
+    return false;
+  }
 }

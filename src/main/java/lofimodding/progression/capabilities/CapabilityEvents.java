@@ -3,6 +3,8 @@ package lofimodding.progression.capabilities;
 import it.unimi.dsi.fastutil.ints.Int2ObjectAVLTreeMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import lofimodding.progression.ProgressionMod;
+import lofimodding.progression.Stage;
+import lofimodding.progression.StageUtils;
 import lofimodding.progression.network.UpdatePlayerProgressPacket;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -42,7 +44,17 @@ public final class CapabilityEvents {
       }
 
       if(event.getEntity() instanceof ServerPlayerEntity) {
-        UpdatePlayerProgressPacket.send((ServerPlayerEntity)event.getEntity());
+        final ServerPlayerEntity player = (ServerPlayerEntity)event.getEntity();
+
+        for(final Stage stage : Stage.REGISTRY.get().getValues()) {
+          if(stage.isDefault()) {
+            if(!StageUtils.hasStage(player, stage)) {
+              StageUtils.grantStage(player, stage);
+            }
+          }
+        }
+
+        UpdatePlayerProgressPacket.send(player);
       }
     }
   }
